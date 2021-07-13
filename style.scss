@@ -1,0 +1,537 @@
+/* COLOR SCHEMES */
+
+    /* Primary colors */
+    $limegreen: #1DB489;
+    $brightred: #DC414C;
+    $facebook: #198FF5;
+    $twitter: #1CA0F2;
+    $instagram: linear-gradient(to right, #FDC468, #DF4996);
+    $youtube: #C4032A;
+
+    /* Light theme colors*/
+    $togglelight: linear-gradient(to right, #AEB3CB, #AEB3CB);
+    $headerbglight: #F5F7FF;
+    $cardbglight: #F0F2FA;
+    $secondarytextlight: #63687E;
+    $primarytextlight: #1E202A;
+
+    /* Dark theme colors */
+    $toggledark: linear-gradient(to right, #378FE6, #3EDA82);
+    $bgdark: #1E202A;
+    $headerbgdark: #1F212E;
+    $cardbgdark: #252A41;
+    $textdark: #8B97C6;
+
+/* PREDEFINED STYLES */
+
+    /* Single line of text */
+    @mixin textline($textcolor)
+    {
+        font-size: 1.4rem;
+        color: $textcolor;
+        font-weight: bold;
+    }
+
+    /* Flex container with centered items */
+    %center-contents
+    {
+        display: flex;
+        align-items: center;
+    }
+
+    /* Color settings for a single blocks */
+    @mixin bodycolors($bodybg)
+    {
+        background-color: $bodybg;
+    }
+
+    @mixin headercolors($headerbg, $primarytext, $secondarytext, $togglecolor, $buttoncolor, $buttonposition)
+    {
+        background-color: $headerbg;
+
+        .header__title
+        {
+            h1
+            {
+                color: $primarytext;
+            }
+
+            p
+            {
+                @include textline($secondarytext);
+            }
+        }
+
+        .header__switch
+        {
+            @include textline($secondarytext);
+
+            .toggle
+            {
+                background-image: $togglecolor;
+
+                &__button
+                {
+                    background-color: $buttoncolor;
+                    left: $buttonposition;
+                }
+            }
+        }
+    }
+
+    @mixin maincolors($cardbg, $hover, $secondarytext, $primarytext, $overviewtitle)
+    {
+        .followers
+        {
+            &__card
+            {
+                background-color: $cardbg;
+
+                &:hover
+                {
+                    background-color: $hover;
+                }
+
+                &--facebook
+                {
+                    .card__border
+                    {
+                        background-color: $facebook;
+                    }
+                }
+
+                &--twitter
+                {
+                    .card__border
+                    {
+                        background-color: $twitter;
+                    }
+                }
+
+                &--instagram
+                {
+                    .card__border
+                    {
+                        background-image: $instagram;
+                    }
+                }
+
+                &--youtube
+                {
+                    .card__border
+                    {
+                        background-color: $youtube;
+                    }
+                }
+            }
+
+            &__address
+            {
+                @include textline($secondarytext);
+            }
+
+            &__change--positive
+            {
+                @include textline($limegreen);
+            }
+
+            &__change--negative
+            {
+                @include textline($brightred);
+            }
+
+            &__score
+            {
+                p:first-of-type
+                {
+                    color: $primarytext;
+                }
+
+                p:nth-of-type(2)
+                {
+                    color: $secondarytext;
+                }
+            }
+        }
+
+        .overview
+        {
+            &__title
+            {
+                color: $overviewtitle;
+            }
+
+            &__card
+            {
+                background-color: $cardbg;
+
+                &:hover
+                {
+                    background-color: $hover;
+                }
+            }
+
+            &__category
+            {
+                @include textline($secondarytext);
+            }
+
+            &__change--positive
+            {
+                @include textline($limegreen);
+            }
+
+            &__change--negative
+            {
+                @include textline($brightred);
+            }
+
+            &__score
+            {
+                color: $primarytext;
+            }
+        }
+    }
+
+    @mixin footercolors($secondarytext, $anchor)
+    {
+        p
+        {
+            @include textline($secondarytext);
+        }
+
+        a
+        {
+            background-image: $anchor;
+            background-clip: text;
+            color: transparent;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    }
+
+    
+/* STYLES*/
+
+    /* Global */
+
+    html
+    {
+        font-size: 10px;
+        font-family: Inter;
+        height: 100%;
+    }
+    
+    *
+    {
+        transition: .3s;
+    }
+    
+    /* Body */
+
+    .body
+    {
+        margin: 0;
+        height: 100%;
+    }
+
+    .body--light
+    {
+        @include bodycolors(white);
+    }
+
+    .body--dark
+    {
+        @include bodycolors($bgdark);
+    }
+
+    /* Header */
+
+    .header
+    {
+        display: flex;
+        flex-direction: column;
+        padding: 0 2.5rem 15rem;
+        border-radius: 0 0 3rem 3rem;
+        
+        &__title
+        {
+            border-bottom: 1px solid $textdark;
+            padding: 4rem 0 2.5rem 0;
+
+            h1, p
+            {
+                margin: 0;
+            }
+
+            p
+            {
+                margin-top: 1rem;
+            }
+        }
+        
+        &__switch
+        {
+            @extend %center-contents;
+            justify-content: space-between;
+
+            .toggle
+            {
+                width: 5rem;
+                height:2.5rem;
+                border-radius: 2rem;
+                position: relative;
+                cursor: pointer;
+            
+                &__checkbox
+                {
+                    width: 0;
+                    height: 0;
+                    opacity: 0;
+                    cursor: pointer;
+                }
+            
+                &__button
+                {
+                    height: 2rem;
+                    width: 2rem;
+                    border-radius: 1rem;
+                    position: absolute;
+                    top: .2rem;
+                    cursor: pointer;
+                    transition: .3s
+                }
+            }
+        }
+    }
+
+    .header--light
+    {
+        @include headercolors($headerbglight, $primarytextlight, $secondarytextlight, $togglelight, white, 2.5rem);
+    }
+
+    .header--dark
+    {
+        @include headercolors($headerbgdark, white, $textdark, $toggledark, $cardbgdark, .4rem);
+    }
+
+    /* Main */
+
+    .main
+    {
+        padding: 0 2.5rem;
+        position: relative;
+        bottom: 12rem;
+
+        .followers
+        {
+            width: 100%;
+
+            &__card
+            {
+                width: 100%;
+                height: 23rem;
+                justify-content: space-between;
+                @extend %center-contents;
+                flex-direction: column;
+                cursor: pointer;
+                border-radius: .5rem;
+                margin: 0 auto 2rem;
+                overflow: hidden;
+                max-width: 500px;
+
+                .card__border
+                {
+                    width: 100%;
+                    height: .5rem;
+                }
+            }
+
+            &__address, &__change
+            {
+                @extend %center-contents;
+
+                p
+                {
+                    margin-left: 1rem;
+                }
+            }
+
+            &__score
+            {
+                @extend %center-contents;
+                flex-direction: column;
+
+                p:first-of-type
+                {
+                    font-size: 6rem;
+                    font-weight: 700;
+                    margin: 0;
+                }
+
+                p:nth-of-type(2)
+                {
+                    font-size: 1.8rem;
+                    letter-spacing: .5rem;
+                    margin: 0;
+                }
+            }
+        }
+
+        .overview
+        {
+
+            &__title
+            {
+                font-size: 2rem;
+                font-weight: bold;
+                margin: 4rem 0 3rem;
+            }
+
+            &__card
+            {
+                height: 13rem;
+                display: grid;
+                grid-template-rows: 1fr 1fr;
+                grid-template-columns: 1fr 1fr;
+                align-items: center;
+                border-radius: .5rem;
+                cursor: pointer;
+                max-width: 500px;
+                margin: 0 auto 1.5rem;
+            }
+
+            &__category
+            {
+                grid-column: 1/2;
+                grid-row: 1/2;
+                margin-left: 20%;
+            }
+
+            &__logo
+            {
+                grid-column: 2/3;
+                grid-row: 1/2;
+                justify-self: end;
+                margin-right: 20%;
+            }
+
+            &__score
+            {
+                font-size: 3rem;
+                font-weight: bold;
+                margin: 0;
+                grid-column: 1/2;
+                grid-row: 2/3;
+                margin-left: 20%;
+            }
+
+            &__change
+            {
+                grid-column: 2/3;
+                grid-row: 2/3;
+                justify-self: end;
+                margin-right: 20%;
+                @extend %center-contents;
+
+                p
+                {
+                    margin-left: 1rem;
+                }
+            }
+        }
+    }
+
+    .main--light
+    {
+        @include maincolors($cardbglight, #e1e3f0, $secondarytextlight, $primarytextlight, $secondarytextlight);
+    }
+
+    .main--dark
+    {
+        @include maincolors($cardbgdark, #333a56, $textdark, white, white);
+    }
+
+    /* Footer */
+
+    .footer
+    {
+        padding: 0 2.5rem;
+        text-align: center;
+        margin-top: -10rem;
+
+        a
+        {
+            text-decoration: none;
+        }
+    }
+
+    .footer--light
+    {
+        @include footercolors($secondarytextlight, $togglelight);
+    }
+
+    .footer--dark
+    {
+        @include footercolors($textdark, $toggledark);
+    }
+
+/* Desktop version*/
+
+@media only screen and (min-width: 1000px)
+{
+    .header
+    {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 0 8% 15rem;
+
+        &__title
+        {
+            border-bottom: 1px solid transparent;
+            padding: 4rem 0 0 0;
+        }
+
+        &__switch
+        {
+            p
+            {
+                margin-right: 1.5rem;
+            }
+        }
+    }
+
+    .main
+    {
+        width: 84%;
+        margin: 0 auto;
+        
+        .followers
+        {
+            display: flex;
+            flex-direction: row;
+
+            &__card
+            {
+                flex-basis: 23%;
+            }
+        }
+
+        .overview
+        {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+
+            &__title
+            {
+                width: 100%;
+            }
+
+            &__card
+            {
+                flex-basis: 23%;
+            }
+        }
+    }
+}
